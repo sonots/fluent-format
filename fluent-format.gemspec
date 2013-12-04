@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.version     = Fluent::Format::VERSION
   s.authors     = ["Naotoshi Seo"]
   s.email       = ["sonots@gmail.com"]
-  s.homepage    = "https://github.com/sonots/fluent_formatter"
+  s.homepage    = "https://github.com/sonots/fluent-format"
   s.summary     = "A command line utility to format fluentd configuration beautifully"
   s.description = s.summary
   s.licenses    = ["MIT"]
