@@ -1,4 +1,4 @@
-# fluent-format
+# fluent-format  [![Build Status](https://secure.travis-ci.org/sonots/fluent-format.png?branch=master)](http://travis-ci.org/sonots/fluent-format)
 
 A command line utility to format fluentd configuration beautifully
 
