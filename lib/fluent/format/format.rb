@@ -10,6 +10,7 @@ module Fluent
 
       # Format config
       #
+      # @raise Fluent::ConfigParseError if conf has syntax errors
       # @return [String] the formatted config
       def run
         config = read_config(@config_dev)

@@ -21,7 +21,7 @@ module Fluent
       def check
         config = @options[:config]
         plugin = @options[:plugin]
-        Fluent::Format.check(config, plugin) || exit(1)
+        Fluent::Format.check(config, plugin)
       rescue => e
         $log.error "#{e.class}: #{e}"
         exit 1

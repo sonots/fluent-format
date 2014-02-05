@@ -26,7 +26,9 @@ module Fluent
 
       # Check config file
       #
-      # @return [Boolean]
+      # @raise Fluent::ConfigParseError if conf has syntax errors
+      # @raise Fluent::ConfigError      if plugin raises config error
+      # @return true if success
       def run
         Fluent::Supervisor.new(@opts).ext_dry_run
       end
@@ -37,15 +39,16 @@ end
 module Fluent
   class Supervisor
     # Extended to accept IO object
+    #
+    # @raise Fluent::ConfigParseError if conf has syntax errors
+    # @raise Fluent::ConfigError      if plugin raises config error
+    # @return true if success
     def ext_dry_run
       ext_read_config
       change_privilege
       init_engine
       install_main_process_signal_handlers
       run_configure
-      true
-    rescue => e
-      false
     end
 
     # Extended to accept IO object
@@ -53,7 +56,6 @@ module Fluent
       if @config_path.respond_to?(:read) # IO object
         @config_data = @config_path.read
       else
-        $log.info "reading config file", :path=>@config_path
         @config_fname = File.basename(@config_path)
         @config_basedir = File.dirname(@config_path)
         @config_data = File.read(@config_path)
