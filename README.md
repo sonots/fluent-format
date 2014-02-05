@@ -34,7 +34,7 @@ require 'fluent-format'
 
 File.open(path) {|config|
   puts Fluent::Format.format(config) # formatted string
-  puts Fluent::Format.check(config, plugin_dir) #=> true: success false: failure
+  Fluent::Format.check(config, plugin_dir) #=> Fluent::ConfigParseError or Fluent::ConfigError if failed
 }
 ```
 
