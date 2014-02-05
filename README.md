@@ -16,9 +16,27 @@ Or install it yourself as:
 
     $ gem install fluent-format
 
-Run as
+## Command Line Interface
 
-    $ fluent-format -c fluentd.conf
+Format fluent.conf
+
+    $ fluent-format -c fluent.conf
+
+Check fluent.conf
+
+    $ fluent-format check -c fluent.conf -p plugin_dir
+    $ echo $? # 0: success 1: failure
+
+## As a library
+
+```ruby
+require 'fluent-format'
+
+File.open(path) {|config|
+  puts Fluent::Format.format(config) # formatted string
+  puts Fluent::Format.check(config, plugin_dir) #=> true: success false: failure
+}
+```
 
 ## ToDo
 
