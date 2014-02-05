@@ -49,6 +49,7 @@ module Fluent
       init_engine
       install_main_process_signal_handlers
       run_configure
+      true
     end
 
     # Extended to accept IO object

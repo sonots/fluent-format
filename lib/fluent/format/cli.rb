@@ -9,7 +9,7 @@ module Fluent
       option :config, :aliases => ["-c"], :type => :string, :default => 'fluent.conf', :desc => 'Fluentd configuration file'
       def format
         config = @options[:config]
-        puts Fluent::Format.format(config)
+        taputs Fluent::Format.format(config)
       rescue => e
         $log.error "#{e.class}: #{e}"
         exit 1
@@ -25,6 +25,13 @@ module Fluent
       rescue => e
         $log.error "#{e.class}: #{e}"
         exit 1
+      end
+
+      private
+
+      def taputs(str)
+        puts str
+        str
       end
     end
   end
