@@ -38,10 +38,6 @@ File.open(path) {|config|
 }
 ```
 
-## ToDo
-
-1. write tests
-
 ## Contributing
 
 1. Fork it
