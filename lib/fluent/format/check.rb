@@ -30,12 +30,14 @@ module Fluent
       # @raise Fluent::ConfigError      if plugin raises config error
       # @return true if success
       def run
-        Fluent::Supervisor.new(@opts).ext_dry_run
+        Fluent::Supervisor.new(@opts).extended_dry_run
       end
     end
   end
 end
 
+# lib/fluent/supervisor.rb
+# Open the existing class and define new methods
 module Fluent
   class Supervisor
     # Extended to accept IO object
@@ -43,8 +45,8 @@ module Fluent
     # @raise Fluent::ConfigParseError if conf has syntax errors
     # @raise Fluent::ConfigError      if plugin raises config error
     # @return true if success
-    def ext_dry_run
-      ext_read_config
+    def extended_dry_run
+      extended_read_config
       change_privilege
       init_engine
       install_main_process_signal_handlers
@@ -53,7 +55,7 @@ module Fluent
     end
 
     # Extended to accept IO object
-    def ext_read_config
+    def extended_read_config
       if @config_path.respond_to?(:read) # IO object
         @config_data = @config_path.read
       else
