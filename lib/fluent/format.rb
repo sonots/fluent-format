@@ -1,4 +1,4 @@
-$log = Fluent::Log.new(STDERR, Fluent::Log::LEVEL_WARN)
+$log = Fluent::Log.new($stderr, Fluent::Log::LEVEL_WARN)
 
 module Fluent
   class Format

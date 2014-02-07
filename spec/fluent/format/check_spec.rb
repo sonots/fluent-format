@@ -1,7 +1,8 @@
 require 'spec_helper'
 
 describe Fluent::Format::Check do
-  let(:subject) { Fluent::Format.check(config) }
+  let(:plugin_dir) { File.expand_path('../../../example', File.dirname(__FILE__)) }
+  let(:subject) { Fluent::Format.check(config, plugin_dir) }
 
   context "valid" do
     let(:config) { StringIO.new(%[<match>\ntype stdout\n</match>]) }
@@ -15,6 +16,11 @@ describe Fluent::Format::Check do
 
   context "plugin error" do
     let(:config) { StringIO.new(%[<match>\ntype foobar\n</match>]) }
+    it { expect { subject }.to raise_error(Fluent::ConfigError) }
+  end
+
+  context "param error" do
+    let(:config) { StringIO.new(%[<match>\ntype example\nparam bad\n</match>]) }
     it { expect { subject }.to raise_error(Fluent::ConfigError) }
   end
 end

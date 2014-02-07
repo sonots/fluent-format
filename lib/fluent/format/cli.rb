@@ -11,7 +11,7 @@ module Fluent
         config = @options[:config]
         taputs Fluent::Format.format(config)
       rescue => e
-        $log.error "#{e.class}: #{e}"
+        $stderr.puts "#{e.class} #{e.message} #{e.backtrace.first}"
         exit 1
       end
 
@@ -23,7 +23,7 @@ module Fluent
         plugin = @options[:plugin]
         Fluent::Format.check(config, plugin)
       rescue => e
-        $log.error "#{e.class}: #{e}"
+        $stderr.puts "#{e.class} #{e.message} #{e.backtrace.first}"
         exit 1
       end
 
