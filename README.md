@@ -67,6 +67,16 @@ File.open(path) {|config|
 }
 ```
 
+or
+
+```ruby
+require 'fluent-format'
+
+puts Fluent::Format.format(path)
+```
+
+Use the 2nd way when you want to exapnd `include` directive.
+
 ### Check
 
 ```ruby
@@ -78,6 +88,16 @@ File.open(path) {|config|
 }
 ```
 
+or
+
+```ruby
+require 'fluent-format'
+
+Fluent::Format.check(path, plugin_dir)
+#=> Fluent::ConfigParseError or Fluent::ConfigError if failed
+```
+
+Use the 2nd way when you want to exapnd `include` directive.
 
 ## Contributing
 

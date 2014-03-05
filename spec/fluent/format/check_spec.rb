@@ -23,5 +23,10 @@ describe Fluent::Format::Check do
     let(:config) { StringIO.new(%[<match>\ntype example\nparam bad\n</match>]) }
     it { expect { subject }.to raise_error(Fluent::ConfigError) }
   end
+
+  context "file_path should `include`" do
+    let(:config) { File.expand_path('../../../example/include_error.conf', File.dirname(__FILE__)) }
+    it { expect { subject }.to raise_error(Fluent::ConfigError) }
+  end
 end
 
