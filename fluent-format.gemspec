@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.authors     = ["Naotoshi Seo"]
   s.email       = ["sonots@gmail.com"]
   s.homepage    = "https://github.com/sonots/fluent-format"
-  s.summary     = "A command line utility to format fluentd configuration beautifully"
+  s.summary     = "A utility to format or check fluentd configuration"
   s.description = s.summary
   s.licenses    = ["MIT"]
 
