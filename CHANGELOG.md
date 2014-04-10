@@ -1,3 +1,9 @@
+## 0.2.3 (2014/04/10)
+
+Enhancement:
+
+* Add `require` option to fluent-format check
+
 ## 0.2.2 (2014/02/08)
 
 Enhancement:
