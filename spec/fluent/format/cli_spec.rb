@@ -40,6 +40,18 @@ describe Fluent::Format::CLI do
       it { expect { subject }.not_to raise_error }
     end
 
+    context "plugin option" do
+      let(:opts) { {config: "fluent.conf", plugin: "example"} }
+      it { capture_stderr { subject }.should == "" }
+      it { expect { subject }.not_to raise_error }
+    end
+
+    context "require option" do
+      let(:opts) { {config: "fluent.conf", require: ["example/out_example"]} }
+      it { capture_stderr { subject }.should == "" }
+      it { expect { subject }.not_to raise_error }
+    end
+
     context "syntax error" do
       let(:opts) { {config: "example/syntax_error.conf"} }
       it { capture_stderr { subject }.should include("parse error") }

@@ -7,7 +7,8 @@ module Fluent
       #
       # @param [IO|String] config_dev
       # @param [String] plugin_dir the plugin directory
-      def initialize(config_dev, plugin_dir = nil)
+      # @param [Array] libs load libraries (to require)
+      def initialize(config_dev, plugin_dir = nil, libs = nil)
         @opts = {
           :config_path => config_dev, # Fluent::DEFAULT_CONFIG_PATH,
           :plugin_dirs => [Fluent::DEFAULT_PLUGIN_DIR],
@@ -22,6 +23,7 @@ module Fluent
           :suppress_repeated_stacktrace => false,
         }
         @opts[:plugin_dirs] << plugin_dir if plugin_dir
+        @opts[:libs] += libs if libs and !libs.empty?
       end
 
       # Check config file

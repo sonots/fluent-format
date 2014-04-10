@@ -14,9 +14,10 @@ module Fluent
     #
     # @param [IO|String] config_dev
     # @param [String] plugin_dir the plugin directory
+    # @param [Array] libs load libraries (to require)
     # @return [Boolean]
-    def self.check(config_dev, plugin_dir = nil)
-      Fluent::Format::Check.new(config_dev, plugin_dir).run
+    def self.check(config_dev, plugin_dir = nil, libs = nil)
+      Fluent::Format::Check.new(config_dev, plugin_dir, libs).run
     end
   end
 end

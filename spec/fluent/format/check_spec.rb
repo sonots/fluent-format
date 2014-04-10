@@ -2,10 +2,16 @@ require 'spec_helper'
 
 describe Fluent::Format::Check do
   let(:plugin_dir) { File.expand_path('../../../example', File.dirname(__FILE__)) }
-  let(:subject) { Fluent::Format.check(config, plugin_dir) }
+  let(:libs) { [File.expand_path('../../../example/out_example', File.dirname(__FILE__))] }
+  let(:subject) { Fluent::Format.check(config, plugin_dir, libs) }
 
   context "valid" do
     let(:config) { StringIO.new(%[<match>\ntype stdout\n</match>]) }
+    it { should be_true }
+  end
+
+  context "plugin option" do
+    let(:config) { StringIO.new(%[<match>\ntype example\n</match>]) }
     it { should be_true }
   end
 
