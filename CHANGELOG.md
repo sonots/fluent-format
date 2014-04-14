@@ -1,3 +1,9 @@
+## 0.2.4 (2014/04/14)
+
+Enhancements:
+
+* Add `gemfile` option and `inline_config` option for fluent-format check
+
 ## 0.2.3 (2014/04/10)
 
 Enhancement:
