@@ -40,14 +40,15 @@ describe Fluent::Format::CLI do
       it { expect { subject }.not_to raise_error }
     end
 
-    context "plugin option" do
-      let(:opts) { {config: "fluent.conf", plugin: "example"} }
+    context "-p option" do
+      let(:opts) { {config: "fluent.conf", plugin_dirs: ["example"]} }
       it { capture_stderr { subject }.should == "" }
       it { expect { subject }.not_to raise_error }
     end
 
-    context "require option" do
-      let(:opts) { {config: "fluent.conf", require: ["example/out_example"]} }
+    context "-r option" do
+      let(:libs) { [File.expand_path('../../../example/out_example', File.dirname(__FILE__))] }
+      let(:opts) { {config: "fluent.conf", libs: libs } }
       it { capture_stderr { subject }.should == "" }
       it { expect { subject }.not_to raise_error }
     end
@@ -65,7 +66,7 @@ describe Fluent::Format::CLI do
     end
 
     context "param error" do
-      let(:opts) { {config: "example/param_error.conf", plugin: "example"} }
+      let(:opts) { {config: "example/param_error.conf", plugin_dirs: ["example"]} }
       it { capture_stderr { subject }.should include("out_example.rb") }
       it { expect { subject }.to raise_error(SystemExit) }
     end
