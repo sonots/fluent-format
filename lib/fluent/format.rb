@@ -13,11 +13,10 @@ module Fluent
     # Check config file
     #
     # @param [IO|String] config_dev
-    # @param [String] plugin_dir the plugin directory
-    # @param [Array] libs load libraries (to require)
+    # @param [Hash] opts
     # @return [Boolean]
-    def self.check(config_dev, plugin_dir = nil, libs = nil)
-      Fluent::Format::Check.new(config_dev, plugin_dir, libs).run
+    def self.check(config_dev, opts = {})
+      Fluent::Format::Check.new(config_dev, opts).run
     end
   end
 end

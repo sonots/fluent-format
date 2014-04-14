@@ -6,9 +6,7 @@ module Fluent
       # Initialize
       #
       # @param [IO|String] config_dev
-      # @param [String] plugin_dir the plugin directory
-      # @param [Array] libs load libraries (to require)
-      def initialize(config_dev, plugin_dir = nil, libs = nil)
+      def initialize(config_dev, opts = {})
         @opts = {
           :config_path => config_dev, # Fluent::DEFAULT_CONFIG_PATH,
           :plugin_dirs => [Fluent::DEFAULT_PLUGIN_DIR],
@@ -22,8 +20,11 @@ module Fluent
           :suppress_interval => 0,
           :suppress_repeated_stacktrace => false,
         }
-        @opts[:plugin_dirs] << plugin_dir if plugin_dir
-        @opts[:libs] += libs if libs and !libs.empty?
+        @opts[:plugin_dirs] += opts[:plugin_dirs] if opts[:plugin_dirs] and !opts[:plugin_dirs].empty?
+        @opts[:libs] += opts[:libs] if opts[:libs] and !opts[:libs].empty?
+        @opts[:inline_config] = opts[:inline_config]
+        @opts[:gemfile] = opts[:gemfile]
+        @opts[:gem_install_path] = opts[:gem_install_path]
       end
 
       # Check config file
@@ -32,7 +33,53 @@ module Fluent
       # @raise Fluent::ConfigError      if plugin raises config error
       # @return true if success
       def run
+        Fluent::Format::BundlerInjection.new(@opts).run
         Fluent::Supervisor.new(@opts).extended_dry_run
+      end
+    end
+  end
+end
+
+module Fluent
+  class Format
+    class BundlerInjection
+      def initialize(opts = {})
+        @opts = {
+          :gemfile => opts[:gemfile],
+          :gem_install_path => opts[:gem_install_path],
+        }
+      end
+
+      def run
+        # copy from lib/fluent/command/fluentd.rb
+        if ENV['FLUENTD_DISABLE_BUNDLER_INJECTION'] != '1' && gemfile = @opts[:gemfile]
+          ENV['BUNDLE_GEMFILE'] = gemfile
+          if path = @opts[:gem_install_path]
+            ENV['BUNDLE_PATH'] = path
+          else
+            ENV['BUNDLE_PATH'] = File.expand_path(File.join(File.dirname(gemfile), 'vendor/bundle'))
+          end
+          ENV['FLUENTD_DISABLE_BUNDLER_INJECTION'] = '1'
+          bundler_injection
+        end
+      end
+
+      def bundler_injection
+        # basically copy from lib/fluent/command/bundler_injection.rb
+        system("bundle install")
+        unless $?.success?
+          exit $?.exitstatus
+        end
+
+        cmdline = [
+          'bundle',
+          'exec',
+          RbConfig.ruby,
+          File.expand_path(File.join(File.dirname(__FILE__), '../../../bin/fluent-format')),
+        ] + ARGV
+
+        exec *cmdline
+        exit! 127
       end
     end
   end
