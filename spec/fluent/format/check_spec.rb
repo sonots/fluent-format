@@ -9,12 +9,12 @@ describe Fluent::Format::Check do
 
   context "valid" do
     let(:config) { StringIO.new(%[<match>\ntype stdout\n</match>]) }
-    it { should be_true }
+    it { should be_truthy }
   end
 
   context "plugin option" do
     let(:config) { StringIO.new(%[<match>\ntype example\n</match>]) }
-    it { should be_true }
+    it { should be_truthy }
   end
 
   context "syntax error" do
