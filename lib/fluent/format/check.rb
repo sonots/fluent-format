@@ -25,6 +25,9 @@ module Fluent
         @opts[:inline_config] = opts[:inline_config]
         @opts[:gemfile] = opts[:gemfile]
         @opts[:gem_install_path] = opts[:gem_install_path]
+        if config_dev.respond_to?(:read) # IO object
+          @opts[:config_path] = Tempfile.open('fluent-format') {|f| f.puts(config_dev.read); f.path }
+        end
       end
 
       # Check config file
@@ -33,6 +36,11 @@ module Fluent
       # @raise Fluent::ConfigError      if plugin raises config error
       # @return true if success
       def run
+        if @opts[:config_path].respond_to?(:read) # IO object
+          @opts[:config_path] = Tempfile.open('fluent-format') {|fp|
+            fp.puts(@opts[:config_path].read); fp.path
+          }
+        end
         Fluent::Format::BundlerInjection.new(@opts).run
         Fluent::Supervisor.new(@opts).extended_dry_run
       end
@@ -89,34 +97,18 @@ end
 # Open the existing class and define new methods
 module Fluent
   class Supervisor
-    # Extended to accept IO object
+    # Extended not to exit
     #
     # @raise Fluent::ConfigParseError if conf has syntax errors
     # @raise Fluent::ConfigError      if plugin raises config error
     # @return true if success
     def extended_dry_run
-      extended_read_config
+      read_config
       change_privilege
       init_engine
       install_main_process_signal_handlers
       run_configure
       true
-    end
-
-    # Extended to accept IO object
-    def extended_read_config
-      if @config_path.respond_to?(:read) # IO object
-        @config_data = @config_path.read
-      else
-        @config_fname = File.basename(@config_path)
-        @config_basedir = File.dirname(@config_path)
-        @config_data = File.read(@config_path)
-      end
-      if @inline_config == '-'
-        @config_data << "\n" << STDIN.read
-      elsif @inline_config
-        @config_data << "\n" << @inline_config.gsub("\\n","\n")
-      end
     end
   end
 end
