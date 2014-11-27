@@ -5,9 +5,10 @@ module Fluent
     # Format config file
     #
     # @param [IO|String] config_dev
+    # @param [Hash] opts
     # @return [String] the formatted config
-    def self.format(config_dev)
-      Fluent::Format::Format.new(config_dev).run
+    def self.format(config_dev, opts = {})
+      Fluent::Format::Format.new(config_dev, opts).run
     end
 
     # Check config file

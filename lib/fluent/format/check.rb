@@ -19,6 +19,7 @@ module Fluent
           :chgroup => nil,
           :suppress_interval => 0,
           :suppress_repeated_stacktrace => false,
+          :use_v1_config => true,
         }
         @opts[:plugin_dirs] += opts[:plugin_dirs] if opts[:plugin_dirs] and !opts[:plugin_dirs].empty?
         @opts[:libs] += opts[:libs] if opts[:libs] and !opts[:libs].empty?
@@ -28,6 +29,7 @@ module Fluent
         if config_dev.respond_to?(:read) # IO object
           @opts[:config_path] = Tempfile.open('fluent-format') {|f| f.puts(config_dev.read); f.path }
         end
+        @opts[:use_v1_config] = opts[:use_v1_config]
       end
 
       # Check config file
