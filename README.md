@@ -47,6 +47,10 @@ Output Example:
 </match>
 ```
 
+See help for more options
+
+    $ fluent-format help format
+
 ### Check
 
     $ fluent-format check -c fluent.conf -p plugin_dir
@@ -54,6 +58,10 @@ Output Example:
 
 This returns the status code 0 if check passed,
 and status code 1 with error messages if check failed. 
+
+See help for more options
+
+    $ fluent-format help check
 
 ## As a library
 

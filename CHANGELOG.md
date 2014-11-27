@@ -1,3 +1,9 @@
+## 0.3.0 (2014/11/27)
+
+Enhancements:
+
+* Add --use-v1-config option
+
 ## 0.2.6 (2014/09/22)
 
 Fixes:
